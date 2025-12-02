@@ -133,11 +133,32 @@
         <a class="btn" href="#" target="_blank" rel="noopener">GitHub (Dev Log)</a>
       </div>
 
-<!-- Optional: background music track -->
-<audio controls>
-  <source src="orcs_aint_so_grim_after_ale_kicks_in.mp3">
-  Your browser does not support the audio element.
-</audio>
+<!-- Shadowdawn Music Playlist -->
+<audio id="player" controls></audio>
+
+<script>
+  // List your tracks here
+  const playlist = [
+    "tracks/orcs_aint_so_grim.mp3",
+    "tracks/blood_and_stars.mp3",
+    "tracks/echoes_of_the_labyrinth.mp3",
+    "tracks/watchers_theme.mp3"
+  ];
+
+  let index = 0;
+  const player = document.getElementById("player");
+
+  // Load first track
+  player.src = playlist[index];
+
+  // When a track ends, move to the next
+  player.addEventListener("ended", () => {
+    index = (index + 1) % playlist.length; // loops playlist
+    player.src = playlist[index];
+    player.play();
+  });
+</script>
+
 
 
       <div class="footer">
