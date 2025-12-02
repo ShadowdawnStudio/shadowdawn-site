@@ -133,40 +133,37 @@
         <a class="btn" href="#" target="_blank" rel="noopener">GitHub (Dev Log)</a>
       </div>
 
-<!-- Shadowdawn Music Playlist -->
-<!-- Shadowdawn music playlist -->
-<audio id="player" controls>
+<!-- Optional: background music track with simple playlist -->
+<audio id="bg-audio" controls>
   Your browser does not support the audio element.
 </audio>
 
 <script>
-  // Start with a simple playlist that has one track.
-  // File is in the same folder as index.html.
+  // List of tracks that exist in your repo (same folder as index.html)
   const playlist = [
     "orcs_aint_so_grim_after_ale_kicks_in.mp3"
-    // Later you can add more, for example:
+    // When you upload more, add them here:
     // "second_track.mp3",
     // "third_track.mp3"
   ];
 
-  let index = 0;
+  let currentTrack = 0;
+  const audioEl = document.getElementById("bg-audio");
 
-  // This must match the id on the <audio> element
-  const player = document.getElementById("player");
-
-  // Safety check
-  if (player && playlist.length > 0) {
-    // Load the first track
-    player.src = playlist[index];
-
-    // When a track ends, move to the next one and loop
-    player.addEventListener("ended", () => {
-      index = (index + 1) % playlist.length;
-      player.src = playlist[index];
-      player.play();
-    });
+  // Only set src if we actually have at least one track
+  if (playlist.length > 0) {
+    audioEl.src = playlist[currentTrack];
   }
+
+  // Optional: auto-advance to next song when one ends
+  audioEl.addEventListener("ended", () => {
+    if (playlist.length <= 1) return;  // nothing else to play yet
+    currentTrack = (currentTrack + 1) % playlist.length;
+    audioEl.src = playlist[currentTrack];
+    audioEl.play();
+  });
 </script>
+
 
 
 
