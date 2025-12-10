@@ -348,6 +348,8 @@
 
           <div class="menu-box">
             <button id="howToBtn" class="btn-main" type="button">How to play</button>
+            <button id="homeButton" class="btn-main" type="button">Home</button>
+
             <ul id="howToList" class="menu-list" style="display:none;">
               <li><strong>Move</strong>: Arrow Keys or WASD.</li>
               <li><strong>Goal</strong>: Reach the glowing exit at the center.</li>
@@ -450,6 +452,8 @@
   const startBtn = document.getElementById('startBtn');
   const howToBtn = document.getElementById('howToBtn');
   const howToList = document.getElementById('howToList');
+  const homeButton = document.getElementById('homeButton');
+
 
   const regenBtn = document.getElementById('regen');
   const backBtn = document.getElementById('backBtn');
@@ -1705,12 +1709,19 @@ function returnToMenu() {
   startBtn.addEventListener('click', startLevelOne);
   regenBtn.addEventListener('click', generate);
   howToBtn.addEventListener('click', function () {
-    if (howToList.style.display === 'none' || howToList.style.display === '') {
-      howToList.style.display = 'block';
-    } else {
-      howToList.style.display = 'none';
-    }
-  });
+  if (howToList.style.display === 'none' || howToList.style.display === '') {
+    howToList.style.display = 'block';
+  } else {
+    howToList.style.display = 'none';
+  }
+});
+
+const homeButton = document.getElementById('homeButton');
+
+homeButton.addEventListener('click', () => {
+  window.location.href = "https://shadowdawnstudio.github.io/shadowdawn-site/";
+});
+
   // sizeInput.addEventListener('change', generate);
   // cellInput.addEventListener('change', generate);
   window.addEventListener('resize', ()=>{ if(running){ resizeCanvas(); drawMaze(); } });
@@ -1721,5 +1732,6 @@ function returnToMenu() {
   </script>
 </body>
 </html>
+
 
 
