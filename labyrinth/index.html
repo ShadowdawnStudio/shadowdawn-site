@@ -735,14 +735,7 @@ function stopAllMusic() {
   menuMusic.pause();
 }
 
-// Start menu music only after first user interaction on this page
-let hasStartedMenuMusic = false;
 
-function startMenuMusicOnFirstInteraction() {
-  if (hasStartedMenuMusic) return;
-  hasStartedMenuMusic = true;
-  playMenuMusic();
-}
 
 window.addEventListener("click", startMenuMusicOnFirstInteraction);
 window.addEventListener("keydown", startMenuMusicOnFirstInteraction);
@@ -1724,6 +1717,7 @@ homeButton.addEventListener('click', () => {
   </script>
 </body>
 </html>
+
 
 
 
