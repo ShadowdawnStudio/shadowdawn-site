@@ -668,18 +668,23 @@ function getDifficultyMultiplier() {
   // === Two audio folders: non-vocal & vocal ===
 
   // Non-vocal ambient tracks
-  const mazeTracksNonVocal = [
-    "clash_beneath_the_stone.mp3",
-    "Descent_Into_the_Hollow.mp3",
-    "descent_into_the_hollow_1.mp3",
-    "Echoes_of_the_First_Flame.mp3",
-    "echoes_of_the_first_flame_1.mp3",
-    "Goblins_in_the_Deep.mp3",
-    "Goblins_in_the_Deep_1.mp3",
-    "hellcraw_warden_of_the_labyrinth.mp3",
-    "hellcraw_warden_of_the_labyrinth_1.mp3",
-    "labyrinth_of_moss_and_minotaurs.mp3", 
-    "labyrinth_of_moss_and_minotaurs_Lv1Maze.mp3",
+const mazeTracksNonVocal = [
+ const mazeTracksNonVocal = [
+  "clash_beneath_the_stone.mp3",
+  "Descent_Into_the_Hollow.mp3",
+  "descent_into_the_hollow_1.mp3",
+  "Echoes_of_the_First_Flame.mp3",
+  "echoes_of_the_first_flame_1.mp3",
+  "Goblins_in_the_Deep.mp3",
+  "Goblins_in_the_Deep_1.mp3",
+  "hellcraw_warden_of_the_labyrinth.mp3",
+  "hellcraw_warden_of_the_labyrinth_1.mp3",
+  "labyrinth_of_moss_and_minotaurs.mp3",
+  "labyrinth_of_moss_and_minotaurs_Lv1Maze.mp3"
+];
+
+];
+
 
     
   ];
@@ -697,6 +702,7 @@ function getDifficultyMultiplier() {
 
   // menu still plays one track
   const menuMusic = new Audio("shadowdawn_entrance_screen_theme.mp3");
+
   menuMusic.loop = true;
   menuMusic.volume = 0.5;
 
@@ -1732,7 +1738,6 @@ homeButton.addEventListener('click', () => {
   </script>
 </body>
 </html>
-
 
 
 
