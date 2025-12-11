@@ -707,20 +707,13 @@ function playMazeMusic() {
 
   const src = mazeTracks[mazeTrackIndex % mazeTracks.length];
   const audio = new Audio(src);
-  audio.loop = false;
+  audio.loop = true;      // repeat THIS song until level is cleared
   audio.volume = 0.1;
 
-  audio.addEventListener("ended", () => {
-    if (!running) return;
-    randomizeNextTrack();
-    const nextSrc = mazeTracks[mazeTrackIndex % mazeTracks.length];
-    audio.src = nextSrc;
-    audio.currentTime = 0;
-    audio.play().catch(() => {});
-  });
-
   currentMazeAudio = audio;
-  audio.play().catch(() => {});
+  audio.play().catch(() => {
+    // ignore autoplay block
+  });
 }
 
 function stopMazeMusic() {
