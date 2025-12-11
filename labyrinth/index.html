@@ -659,17 +659,10 @@ function getDifficultyMultiplier() {
   const MAZES_PER_DIVE = 20;
   let diveCycle = 0; // number of full 20-maze dives completed
 
-// --- Continuous playlist for maze music ---
+// --- Music: menu + maze playlists ---
 
-// === Two audio folders: non-vocal & vocal ===
-
-  // --- Continuous playlist for maze music ---
-
-  // === Two audio folders: non-vocal & vocal ===
-
-  // Non-vocal ambient tracks
-const mazeTracksNonVocal = [
- const mazeTracksNonVocal = [
+// Non-vocal ambient tracks (these files live in the /labyrinth/ folder)
+const mazeTracks = [
   "clash_beneath_the_stone.mp3",
   "Descent_Into_the_Hollow.mp3",
   "descent_into_the_hollow_1.mp3",
@@ -683,84 +676,71 @@ const mazeTracksNonVocal = [
   "labyrinth_of_moss_and_minotaurs_Lv1Maze.mp3"
 ];
 
-];
+let mazeTrackIndex = Math.floor(Math.random() * mazeTracks.length);
+let currentMazeAudio = null;
 
+// Menu music – put shadowdawn_entrance_screen_theme.mp3 in the SAME /labyrinth/ folder
+const menuMusic = new Audio("shadowdawn_entrance_screen_theme.mp3");
+menuMusic.loop = true;
+menuMusic.volume = 0.5;
 
-    
-  ];
+function randomizeNextTrack() {
+  mazeTrackIndex = Math.floor(Math.random() * mazeTracks.length);
+}
 
-  // Default playlist = Non-vocal
-  let mazeTracks = mazeTracksNonVocal;
+function playMenuMusic() {
+  stopMazeMusic();
+  menuMusic.currentTime = 0;
+  menuMusic.play().catch(() => {
+    // Autoplay may be blocked until user interacts – ignore
+  });
+}
 
-  // Playlist state
-  let mazeTrackIndex = Math.floor(Math.random() * mazeTracks.length);   // random start
-  let currentMazeAudio = null;
+function playMazeMusic() {
+  menuMusic.pause();
+  stopMazeMusic();
 
-  function randomizeNextTrack() {
-    mazeTrackIndex = Math.floor(Math.random() * mazeTracks.length);
+  const src = mazeTracks[mazeTrackIndex % mazeTracks.length];
+  const audio = new Audio(src);
+  audio.loop = false;
+  audio.volume = 0.1;
+
+  audio.addEventListener("ended", () => {
+    if (!running) return;
+    randomizeNextTrack();
+    const nextSrc = mazeTracks[mazeTrackIndex % mazeTracks.length];
+    audio.src = nextSrc;
+    audio.currentTime = 0;
+    audio.play().catch(() => {});
+  });
+
+  currentMazeAudio = audio;
+  audio.play().catch(() => {});
+}
+
+function stopMazeMusic() {
+  if (currentMazeAudio) {
+    currentMazeAudio.pause();
+    currentMazeAudio = null;
   }
+}
 
-  // menu still plays one track
-  const menuMusic = new Audio("../shadowdawn_entrance_screen_theme.mp3");
+function stopAllMusic() {
+  stopMazeMusic();
+  menuMusic.pause();
+}
 
+// Start menu music only after first user interaction on this page
+let hasStartedMenuMusic = false;
 
-  menuMusic.loop = true;
-  menuMusic.volume = 0.5;
+function startMenuMusicOnFirstInteraction() {
+  if (hasStartedMenuMusic) return;
+  hasStartedMenuMusic = true;
+  playMenuMusic();
+}
 
-  function playMenuMusic() {
-    stopMazeMusic();
-    menuMusic.currentTime = 0;
-    menuMusic.play().catch(() => {
-      // Autoplay may be blocked until user interacts; ignore failure
-    });
-  }
-
-  function playMazeMusic() {
-    menuMusic.pause();
-    stopMazeMusic();
-
-    const src = mazeTracks[mazeTrackIndex % mazeTracks.length];
-    const audio = new Audio(src);
-    audio.loop = false;
-    audio.volume = 0.1;
-
-    audio.addEventListener("ended", () => {
-      if (!running) return;
-      audio.currentTime = 0;
-      audio.play().catch(() => {
-        // Autoplay blocked; music will resume when allowed
-      });
-    });
-
-    currentMazeAudio = audio;
-    audio.play().catch(() => {
-      // Autoplay blocked on initial start; ignore
-    });
-  }
-
-  function stopMazeMusic() {
-    if (currentMazeAudio) {
-      currentMazeAudio.pause();
-      currentMazeAudio = null;
-    }
-  }
-
-  function stopAllMusic() {
-    stopMazeMusic();
-    menuMusic.pause();
-  }
-
-  // -----Start menu music on first interaction with this page----
-  let hasStartedMenuMusic = false;
-
-  function startMenuMusicOnFirstInteraction() {
-    if (hasStartedMenuMusic) return;
-    hasStartedMenuMusic = true;
-    playMenuMusic();
-  }
-
-  window.addEventListener('click', startMenuMusicOnFirstInteraction);
-  window.addEventListener('keydown', startMenuMusicOnFirstInteraction);
+window.addEventListener("click", startMenuMusicOnFirstInteraction);
+window.addEventListener("keydown", startMenuMusicOnFirstInteraction);
 
 
   /* --- Audio --- */
